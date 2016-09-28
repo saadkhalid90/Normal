@@ -9,6 +9,8 @@ shinyUI(fluidPage(
   actionButton("action", label = "Next Problem"),
   hr(),
   h4(textOutput("ci")),
+  h5(textOutput("cor")),
+  h5(textOutput("incor")),
   mainPanel(
     plotOutput("NormalPlot")
   )

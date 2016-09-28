@@ -1,4 +1,3 @@
-##import libraries
 library(shiny)
 
 mean <- round(runif(n = 1, min = -100, max = 100), digits = 1)
@@ -40,19 +39,15 @@ shinyServer(function(input, output, session){
                       bounds = bounds,
                       correct = 0,
                       incorrect = 0,
-                      question_count = 0)
-  # v$mean <- round(runif(n = 1, min = -100, max = 100), digits = 1)
-  # v$sd <- round(runif(n = 1, min = 1, max = 20), digits = 0)
-  # v$sd_bound <- signif(sort(runif(n = 2, min = -4, max = 4)), 3)
-  # v$bounds <- v$mean + (v$sd_bound * v$sd)
-  
+                      question_count = 0,
+                      test_area = 0)
+
   observeEvent(input$action, {
     v$mean <- round(runif(n = 1, min = -100, max = 100), digits = 1)
     v$sd <- round(runif(n = 1, min = 1, max = 20), digits = 0)
     v$sd_bound <- signif(sort(runif(n = 2, min = -4, max = 4)), 3)
     v$bounds <- v$mean + (v$sd_bound * v$sd)
     v$cor_inc <- ""
-    v$question_count <- v$question_count + 1 
   })
   
   observeEvent(input$answer, {
@@ -63,14 +58,21 @@ shinyServer(function(input, output, session){
     area <- signif(pnorm(ub, mean, sd) - pnorm(lb, mean, sd), 3)
     if (area >= input$Prob - 0.005 & area <= input$Prob + 0.005){
       v$cor_inc <- "Correct!"
-      ##v$correct <- correct + 1
+      if (area != v$test_area){
+        v$correct <- v$correct + 1
+      }
     }
     else{
       v$cor_inc <- "Incorrect! Please try again"
-      ##v$incorrect <- v$incorrect + 1
+      if (area != v$test_area){
+        v$incorrect <- v$incorrect + 1
+      }
     }
+    v$test_area <- area
   })
 
   output$NormalPlot <- renderPlot(normal_plot(v$mean, v$sd, v$bounds[1], v$bounds[2]))
   output$ci <- renderText(v$cor_inc)
+  output$cor <- renderText(paste("Correct: ", v$correct))
+  output$incor <- renderText(paste("Incorrect: ", v$incorrect))
 })

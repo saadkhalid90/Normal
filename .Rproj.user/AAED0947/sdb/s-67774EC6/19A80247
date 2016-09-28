@@ -1,14 +1,14 @@
 {
     "collab_server" : "",
-    "contents" : "library(shiny)\n\nshinyUI(fluidPage(\n  h3(\"Normal Distribution Practice\"),\n  hr(),\n  numericInput(\"Prob\", label = \"Probability: \", value = 0.5, min = 0, max = 1, step = 0.05,\n               width = NULL),\n  actionButton(\"answer\", label = \"Answer\"),\n  actionButton(\"action\", label = \"Next Problem\"),\n  hr(),\n  h4(textOutput(\"ci\")),\n  mainPanel(\n    plotOutput(\"NormalPlot\")\n  )\n))\n",
+    "contents" : "library(shiny)\n\nshinyUI(fluidPage(\n  h3(\"Normal Distribution Practice\"),\n  hr(),\n  numericInput(\"Prob\", label = \"Probability: \", value = 0.5, min = 0, max = 1, step = 0.05,\n               width = NULL),\n  actionButton(\"answer\", label = \"Answer\"),\n  actionButton(\"action\", label = \"Next Problem\"),\n  hr(),\n  h4(textOutput(\"ci\")),\n  h5(textOutput(\"cor\")),\n  h5(textOutput(\"incor\")),\n  mainPanel(\n    plotOutput(\"NormalPlot\")\n  )\n))\n",
     "created" : 1474920472898.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "4270995474",
+    "hash" : "2671542056",
     "id" : "19A80247",
-    "lastKnownWriteTime" : 1475020172,
-    "last_content_update" : 1475020172659,
+    "lastKnownWriteTime" : 1475105003,
+    "last_content_update" : 1475105003760,
     "path" : "~/Desktop/Quant apps/Normal/Normal/ui.R",
     "project_path" : "ui.R",
     "properties" : {
