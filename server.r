@@ -1,8 +1,10 @@
 library(shiny)
 
-mean <- round(runif(n = 1, min = -100, max = 100), digits = 1)
+sd_bound <- signif(sort(runif(n=2,min=-5,max=5)), 2)
+mean <- round(runif(n = 1, min = 0, max = 100), digits = 1)
+# mean <- round(runif(n = 1, min = -100, max = 100), digits = 1) - Changed the range on the mean from -100 to 0
 sd <- round(runif(n = 1, min = 1, max = 20), digits = 0)
-sd_bound <- signif(sort(runif(n = 2, min = -4, max = 4)), 3)
+# sd_bound <- signif(sort(runif(n = 2, min = -4, max = 4)), 3) - Replaced above to make sure the z score is in Table A
 bounds <- mean + (sd_bound * sd)
 
 normal_plot <- function(mean, sd, lb, ub) {
@@ -11,17 +13,19 @@ normal_plot <- function(mean, sd, lb, ub) {
   hx <- dnorm(x,mean,sd)
   
   ## plot
-  plot(x, hx, type="n", xlab="R.V", ylab="", axes=FALSE)
+  plot(x, hx, type="n", xlab="X", ylab="", axes=FALSE)
+  # plot(x, hx, type="n", xlab="R.V", ylab="", axes=FALSE) - Changed R.V. to X throughout
 
   i <- x >= lb & x <= ub
   lines(x, hx)
   polygon(c(lb,x[i],ub), c(0,hx[i],0), col=rgb(1,0,0, alpha = 0.75)) 
   
   area <- pnorm(ub, mean, sd) - pnorm(lb, mean, sd)
-  mean_txt <- paste("Mean: ", mean)
-  sd_text <- paste("S.D: ", sd)
-  result <- paste("P(",lb,"< R.V <",ub,") =",
-                  signif(area, digits=3), "\n",mean_txt, "\n", sd_text)
+  # Changed the text above the graph a bit and removed the answer
+  rv_text <- paste("X has Normal distribution")
+  mean_txt <- paste("with Mean: ", mean)
+  sd_text <- paste("and S.D: ", sd)
+  result <- paste(rv_text, "\n", mean_txt, "\n", sd_text, "\n", "What is P(",lb,"< X <",ub,")?")
   mtext(result,3)
   axis(1, at=seq(mean - (4 * sd), mean + ( 4 * sd), sd), pos=0)
 }
@@ -43,9 +47,10 @@ shinyServer(function(input, output, session){
                       test_area = 0)
 
   observeEvent(input$action, {
-    v$mean <- round(runif(n = 1, min = -100, max = 100), digits = 1)
+    # This is changed as above, at the beginning
+    v$sd_bound <- signif(sort(runif(n=2, min=-5, max=5)), 2)
+    v$mean <- round(runif(n = 1, min = 0, max = 100), digits = 1)
     v$sd <- round(runif(n = 1, min = 1, max = 20), digits = 0)
-    v$sd_bound <- signif(sort(runif(n = 2, min = -4, max = 4)), 3)
     v$bounds <- v$mean + (v$sd_bound * v$sd)
     v$cor_inc <- ""
   })
