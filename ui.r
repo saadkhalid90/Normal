@@ -1,7 +1,7 @@
 library(shiny)
 
 shinyUI(fluidPage(
-  h3("Normal Distribution Practice"),
+  h3("Unlimited Test Bank - Normal Distribution"),
   hr(),
   numericInput("Prob", label = "Probability: ", value = 0.5, min = 0, max = 1, step = 0.05,
                width = NULL),
